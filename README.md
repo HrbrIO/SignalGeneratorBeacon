@@ -14,8 +14,9 @@ This beacon is used to generate periodic data for testing. It will generate sine
 5. `node .`
 
 ## Command Line Arguments
-None
 
+-i = set period of message transmission. Is overriden by `sampleInterval` in `options.json`. Default is 60 seconds.
+-v = put the beacon driver into verbose mode. Does not affect the output of the Signal Generator itself. It is always verbose :).
 
 ## Configuration Options (options.json)
 
