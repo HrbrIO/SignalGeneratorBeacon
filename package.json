@@ -4,25 +4,18 @@
   "description": "Hrbr.io Signal Generator Test Beacon",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests/bootstrap.test.js tests/**/*.test.js",
-    "agent": "node ./src/index.js -v -i 10000&",
-    "start": "node ./src/index.js -v"
+    "agent": "node .&",
+    "start": "node ."
   },
   "author": {
     "name": "Mitch Kahn",
     "url": "http://www.hrbr.io"
   },
   "license": "MIT",
-  "devDependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^5.2.0",
-    "nyc": "^12.0.2"
-  },
+  "devDependencies": {},
   "dependencies": {
     "beacon-es6-driver": "^0.6.0",
-    "bluebird": "^3.5.1",
     "colors": "^1.3.0",
-    "lodash": "^4.17.11",
     "minimist": "^1.2.0"
   }
 }
