@@ -19,7 +19,7 @@ const waveforms = require('../generators/waveforms');
 const colors = require('colors');
 const verbose = args.hasOwnProperty('v');
 const Beacon = require('beacon-es6-driver');
-const options = require('../node_modules/options/stacked-options')();
+const options = require('../options/stacked-options')();
 
 let loopDelay = options.sampleInterval * 1000 | args.i || 60000;
 if (loopDelay < 5000) loopDelay = 5000;
