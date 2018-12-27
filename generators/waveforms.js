@@ -30,10 +30,14 @@ const bars = [
 function getSinusoids(angle) {
 
     return {
-        zero: Math.sin(angle),
+        pi_0: Math.sin(angle),
         pi_8: Math.sin(angle + Math.PI / 8),
         pi_4: Math.sin(angle + Math.PI / 4),
         pi_2: Math.sin(angle + Math.PI / 2),
+        freq: [
+            Math.sin(angle), Math.sin(angle * 2), Math.sin(angle * 3), Math.sin(angle * 4)
+        ],
+        square: (Math.sin(angle) > 0 ? 1:0)
 }
 
 }

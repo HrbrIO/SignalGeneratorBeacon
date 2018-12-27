@@ -48,7 +48,6 @@ function initialize() {
 
 function postMessages() {
 
-    log('Ping!');
     const sinusoids = waveforms.getSinusoids();
     const slices = waveforms.getSlices();
     const bars = waveforms.getBars();
@@ -56,6 +55,10 @@ function postMessages() {
     Beacon.transmit({beaconMessageType: 'BARS', data: { bars: bars}});
     Beacon.transmit({beaconMessageType: 'SINUSOIDS', data: sinusoids});
     Beacon.transmit({beaconMessageType: 'SLICES', data: slices});
+
+    log(`BARS: ${util.inspect(bars)}`);
+    log(`SINUSOIDS: ${util.inspect(sinusoids)}`);
+    log(`SLICES: ${util.inspect(slices)}`);
 
     waveforms.next();
 

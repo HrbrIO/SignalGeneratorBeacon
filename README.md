@@ -67,7 +67,7 @@ _NOTE: `beaconInstanceId` is automatically created by concatenating the "name" a
 
 Base angle starts at zero radians, increments by pi/24 radians every message. Wraps at 2*pi radians. Form:
 
-```{ "zero": <sine of base angle>, "pi_2": <sine of base angle + pi/2>, "pi_4": <sine of base angle + pi/4>, "pi_8":<sum of base angle + pi/8>}```
+```{ "pi_0": <sine of base angle>, "pi_2": <sine of base angle + pi/2>, "pi_4": <sine of base angle + pi/4>, "pi_8":<sum of base angle + pi/8>, "square" <wave that goes 0/1 with the base period>, "freq": <[array of sinusoids with 2,3,4x base freq]>}```
    
 ### BARS
 
