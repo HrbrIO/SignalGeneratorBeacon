@@ -15,6 +15,9 @@ const _ = require('lodash');
 let currentAngle = 0;
 const TWO_PI = Math.PI * 2;
 
+const IMPULSE_EVERY = 5; // every IMPULSE_EVERY `next()` calls
+let impulseCount = 0;
+
 const pizza = {slice1: 0, slice2: 0, slice3: 0, slice4: 0};
 
 const bars = [
@@ -56,6 +59,10 @@ function getBars() {
     return bars;
 }
 
+function getImpulse() {
+    impulseCount = (++impulseCount)%IMPULSE_EVERY;
+    return impulseCount === 0;
+}
 
 function next() {
     currentAngle += Math.PI / 24;
@@ -66,5 +73,6 @@ module.exports = {
     getSinusoids: () => getSinusoids(currentAngle),
     getSlices,
     getBars,
+    getImpulse,
     next
 };

@@ -88,4 +88,10 @@ Generates random pie chart data. Form:
 
     { slice1: <float>, slice2: <float>, slice3: <float>, slice4: <float> }
 
+### IMPULSE
+
+Generates a single message every 10 cycles (configure in `waveforms.js`). Form:
+
+    { message: "impulse generated! }
+
 

@@ -21,8 +21,8 @@ const verbose = args.hasOwnProperty('v');
 const Beacon = require('beacon-es6-driver');
 const options = require('../options/stacked-options')();
 
-let loopDelay = options.sampleInterval * 1000 | args.i || 60000;
-if (loopDelay < 5000) loopDelay = 5000;
+let loopDelay = options.sampleInterval * 1000 | args.i || 1000;
+if (loopDelay < 100) loopDelay = 100;
 
 const beaconOptions = {
     apiKey: options.apikey,
@@ -35,7 +35,7 @@ const beaconOptions = {
     bufferOptions: {
         lengthLimit: 100000
     },
-    interMessageDelayMs: 500,
+    interMessageDelayMs: 10,
     verbose: verbose
 };
 
@@ -56,6 +56,9 @@ function postMessages() {
     Beacon.transmit({beaconMessageType: 'SINUSOIDS', data: sinusoids});
     Beacon.transmit({beaconMessageType: 'SLICES', data: slices});
 
+    if (waveforms.getImpulse())
+        Beacon.transmit({beaconMessageType: 'IMPULSE', data: { message: 'Impulse triggered!'}});
+
     log(`BARS: ${util.inspect(bars)}`);
     log(`SINUSOIDS: ${util.inspect(sinusoids)}`);
     log(`SLICES: ${util.inspect(slices)}`);
@@ -73,7 +76,7 @@ module.exports = {
         log(`======================================`.green)
         log(`Hrbr.io Signal Gen Test Beacon in Node`.green)
         log(`======================================`.green);
-        log(("Interval: " + loopDelay / 1000 + " seconds").red);
+        log(("Interval: " + loopDelay + " milliseconds").red);
 
         log(`\n----------- BEACON OPTIONS -----------`)
         log(util.inspect(beaconOptions));
