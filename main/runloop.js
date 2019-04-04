@@ -21,6 +21,9 @@ const verbose = args.hasOwnProperty('v');
 const Beacon = require('beacon-ratelimiting-driver');
 const options = require('../options/stacked-options')();
 
+// If ENV passed JSON file is corrupt or doesn't exit
+if (!options) process.exit(1);
+
 let loopDelay = options.sampleInterval * 1000 | args.i || 1000;
 if (loopDelay < 100) loopDelay = 100;
 
@@ -47,19 +50,19 @@ function postMessages() {
     const sinusoids = waveforms.getSinusoids();
     const slices = waveforms.getSlices();
     const bars = waveforms.getBars();
+    const time = waveforms.getSeconds();
 
     let dt = new Date().valueOf();
 
     Beacon.transmit({beaconMessageType: 'BARS', dataTimestamp: dt, data: { bars: bars}});
     Beacon.transmit({beaconMessageType: 'SINUSOIDS', dataTimestamp: dt, data: sinusoids});
     Beacon.transmit({beaconMessageType: 'SLICES', dataTimestamp: dt, data: slices});
+    Beacon.transmit({beaconMessageType: 'IMPULSE', dataTimestamp: dt, data: { message: 'Impulse triggered!'}});
+    Beacon.transmit({beaconMessageType: 'SAW_TIME', dataTimestamp: dt, data: { seconds: time}})
 
-    if (waveforms.getImpulse())
-        Beacon.transmit({beaconMessageType: 'IMPULSE', dataTimestamp: dt, data: { message: 'Impulse triggered!'}});
-
-    log(`BARS: ${util.inspect(bars)}`);
-    log(`SINUSOIDS: ${util.inspect(sinusoids)}`);
-    log(`SLICES: ${util.inspect(slices)}`);
+    // log(`BARS: ${util.inspect(bars)}`);
+    // log(`SINUSOIDS: ${util.inspect(sinusoids)}`);
+    // log(`SLICES: ${util.inspect(slices)}`);
 
     waveforms.next();
 
@@ -75,6 +78,7 @@ module.exports = {
         log(`Hrbr.io Signal Gen Test Beacon in Node`.green)
         log(`======================================`.green);
         log(("Interval: " + loopDelay + " milliseconds").red);
+        log(`Started at: ${new Date()}`.red);
 
         log(`\n----------- BEACON OPTIONS -----------`)
         log(util.inspect(beaconOptions));
@@ -82,6 +86,5 @@ module.exports = {
         initialize();
 
     }
-
 
 }

@@ -1,6 +1,6 @@
 {
   "name": "io.hrbr.siggen",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "description": "Hrbr.io Signal Generator Test Beacon",
   "license": "Apache-2.0",
   "homepage": "https://github.com/HrbrIO/SignalGeneratorBeacon#README.md",

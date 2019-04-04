@@ -64,6 +64,10 @@ function getImpulse() {
     return impulseCount === 0;
 }
 
+function getSeconds() {
+    return (new Date()).getSeconds()
+}
+
 function next() {
     currentAngle += Math.PI / 24;
     if (currentAngle > TWO_PI) currentAngle -= TWO_PI;
@@ -74,5 +78,6 @@ module.exports = {
     getSlices,
     getBars,
     getImpulse,
+    getSeconds,
     next
 };
