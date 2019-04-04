@@ -18,8 +18,11 @@ const waveforms = require('../generators/waveforms');
 
 const colors = require('colors');
 const verbose = args.hasOwnProperty('v');
-const Beacon = require('beacon-es6-driver');
+const Beacon = require('hrbr-es6-driver-concurrent');
 const options = require('../options/stacked-options')();
+
+// If ENV passed JSON file is corrupt or doesn't exit
+if (!options) process.exit(1);
 
 let loopDelay = options.sampleInterval * 1000 | args.i || 1000;
 if (loopDelay < 100) loopDelay = 100;
@@ -35,7 +38,7 @@ const beaconOptions = {
     bufferOptions: {
         lengthLimit: 100000
     },
-    interMessageDelayMs: 10,
+    interMessageDelayMs: 1,
     verbose: verbose
 };
 
@@ -51,17 +54,17 @@ function postMessages() {
     const sinusoids = waveforms.getSinusoids();
     const slices = waveforms.getSlices();
     const bars = waveforms.getBars();
+    const time = waveforms.getSeconds();
 
     Beacon.transmit({beaconMessageType: 'BARS', data: { bars: bars}});
     Beacon.transmit({beaconMessageType: 'SINUSOIDS', data: sinusoids});
     Beacon.transmit({beaconMessageType: 'SLICES', data: slices});
+    Beacon.transmit({beaconMessageType: 'IMPULSE', data: { message: 'Impulse triggered!'}});
+    Beacon.transmit({beaconMessageType: 'SAW_TIME', data: { seconds: time}})
 
-    if (waveforms.getImpulse())
-        Beacon.transmit({beaconMessageType: 'IMPULSE', data: { message: 'Impulse triggered!'}});
-
-    log(`BARS: ${util.inspect(bars)}`);
-    log(`SINUSOIDS: ${util.inspect(sinusoids)}`);
-    log(`SLICES: ${util.inspect(slices)}`);
+    // log(`BARS: ${util.inspect(bars)}`);
+    // log(`SINUSOIDS: ${util.inspect(sinusoids)}`);
+    // log(`SLICES: ${util.inspect(slices)}`);
 
     waveforms.next();
 
@@ -77,6 +80,7 @@ module.exports = {
         log(`Hrbr.io Signal Gen Test Beacon in Node`.green)
         log(`======================================`.green);
         log(("Interval: " + loopDelay + " milliseconds").red);
+        log(`Started at: ${new Date()}`.red);
 
         log(`\n----------- BEACON OPTIONS -----------`)
         log(util.inspect(beaconOptions));
