@@ -186,4 +186,4 @@ fabric.properties
 !samples/*.log
 
 # Ignore options.local.json
-!options.local.json
+options.local.json
