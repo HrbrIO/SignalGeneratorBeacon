@@ -18,24 +18,20 @@ const waveforms = require('../generators/waveforms');
 
 const colors = require('colors');
 const verbose = args.hasOwnProperty('v');
-const Beacon = require('beacon-es6-driver');
+const Beacon = require('beacon-ratelimiting-driver');
 const options = require('../options/stacked-options')();
 
 let loopDelay = options.sampleInterval * 1000 | args.i || 1000;
 if (loopDelay < 100) loopDelay = 100;
 
 const beaconOptions = {
-    apiKey: options.apikey,
+    apiKey: process.env.HRBR_APIKEY || options.apikey,
     appVersionId: options.appVersionId || `${pjson.name}:${pjson.version}`,
     beaconVersionId: options.beaconVersionId || `${pjson.name}:${pjson.version}`,
     beaconInstanceId: options.beaconInstanceId || 'some_machine',
     txOptions: {
         server: options.server || 'production'
     },
-    bufferOptions: {
-        lengthLimit: 100000
-    },
-    interMessageDelayMs: 10,
     verbose: verbose
 };
 
@@ -52,12 +48,14 @@ function postMessages() {
     const slices = waveforms.getSlices();
     const bars = waveforms.getBars();
 
-    Beacon.transmit({beaconMessageType: 'BARS', data: { bars: bars}});
-    Beacon.transmit({beaconMessageType: 'SINUSOIDS', data: sinusoids});
-    Beacon.transmit({beaconMessageType: 'SLICES', data: slices});
+    let dt = new Date().valueOf();
+
+    Beacon.transmit({beaconMessageType: 'BARS', dataTimestamp: dt, data: { bars: bars}});
+    Beacon.transmit({beaconMessageType: 'SINUSOIDS', dataTimestamp: dt, data: sinusoids});
+    Beacon.transmit({beaconMessageType: 'SLICES', dataTimestamp: dt, data: slices});
 
     if (waveforms.getImpulse())
-        Beacon.transmit({beaconMessageType: 'IMPULSE', data: { message: 'Impulse triggered!'}});
+        Beacon.transmit({beaconMessageType: 'IMPULSE', dataTimestamp: dt, data: { message: 'Impulse triggered!'}});
 
     log(`BARS: ${util.inspect(bars)}`);
     log(`SINUSOIDS: ${util.inspect(sinusoids)}`);

@@ -9,7 +9,7 @@ This beacon is used to generate periodic data for testing. It will generate sine
 2. `yarn` to download and resolve all dependencies. `npm` can be used as well: `npm install`.
 3. Configure as needed in the `options.json` and/or `options.local.json` (see below).
 4. Register the `beaconVersionId` in the App in Harbor. The `beaconVersionId` is generated from the `package.json` `name` and 
-  `version` fields concatenated with a `:` between them. For this version it is `io.hrbr.siggen:1.0.0`. You can also
+  `version` fields concatenated with a `:` between them. For this version it is `io.hrbr.siggen:1.0.1`. You can also
    override the `beaconVersionId` through the `options` files.
 5. `node .`
 
@@ -18,18 +18,26 @@ This beacon is used to generate periodic data for testing. It will generate sine
 -i = set period of message transmission. Is overriden by `sampleInterval` in `options.json`. Default is 60 seconds.  
 -v = put the beacon driver into verbose mode. Does not affect the output of the Signal Generator itself. It is always verbose :).
 
+## Environment Settings
+
+You can define your Harbor API Key as an environment variable.
+
+    $ export HRBR_APIKEY=YOUR_API_KEY
+
+If your Harbor API Key is not set as an environment variable, it will attempt to find it as a configuration option.
+
 ## Configuration Options (options.json)
 
 Two files are used to set options: `options.json` and `options.local.json`. The local file is not included in the repository
 as it is usually used to hold sensitive info like API keys. The app will merge the two files on startup, with `options.local.json`
 fields taking precendence.
 
-An example JSON options file is shown below.
+An example JSON `options.local.json` file is shown below.
 
 ```
 {
   "apikey": "YOUR_API_KEY_HERE",
-  "appVersionId": "io.hrbr.mktest:1.0.0",
+  "appVersionId": "io.hrbr.mktest:1.0.1",
   "sampleInterval": 10
 }
 ```
@@ -49,14 +57,14 @@ If you do not include a beaconVersionId entry in either `options.json` or `optio
 
     const beaconVersionId = options.beaconVersionId | `${pjson.name}:${pjson.version}`
     
-The pseudo code above results in a `beaconVersionId` like `io.hrbr.siggen:1.0.0`. NOTE: If you are using auto beacon version id, double check the `name` and `version` in the `package.json` and make sure
+The pseudo code above results in a `beaconVersionId` like `io.hrbr.siggen:1.0.1`. NOTE: If you are using auto beacon version id, double check the `name` and `version` in the `package.json` and make sure
 this matches the beacon you have registered in the system.
 
 ## Summary Info
 
 | Item | Value | Comments |
 |------|-------|----------|
-| Beacon Version ID |  io.hrbr.siggen:1.0.0| *Check package.json as version may have changed. Can be overridden via `options` files.*  |
+| Beacon Version ID |  io.hrbr.siggen:1.0.1| *Check package.json as version may have changed. Can be overridden via `options` files.*  |
 | Beacon Message Type(s) | SINUSOIDS, BARS, SLICES | Sends all three |
 
 _NOTE: `beaconInstanceId` is automatically created by concatenating the "name" and "version" fields in the `package.json` file._
