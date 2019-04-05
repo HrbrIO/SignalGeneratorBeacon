@@ -9,7 +9,7 @@ This beacon is used to generate periodic data for testing. It will generate sine
 2. `yarn` to download and resolve all dependencies. `npm` can be used as well: `npm install`.
 3. Configure as needed in the `options.json` and/or `options.local.json` (see below).
 4. Register the `beaconVersionId` in the App in Harbor. The `beaconVersionId` is generated from the `package.json` `name` and 
-  `version` fields concatenated with a `:` between them. For this version it is `io.hrbr.siggen:1.0.1`. You can also
+  `version` fields concatenated with a `:` between them. For this version it is `io.hrbr.siggen:1.3.0`. You can also
    override the `beaconVersionId` through the `options` files.
 5. `node .`
 
@@ -37,7 +37,7 @@ An example JSON `options.local.json` file is shown below.
 ```
 {
   "apikey": "YOUR_API_KEY_HERE",
-  "appVersionId": "io.hrbr.mktest:1.0.1",
+  "appVersionId": "io.hrbr.mktest:1.3.0",
   "sampleInterval": 10
 }
 ```
@@ -57,14 +57,14 @@ If you do not include a beaconVersionId entry in either `options.json` or `optio
 
     const beaconVersionId = options.beaconVersionId | `${pjson.name}:${pjson.version}`
     
-The pseudo code above results in a `beaconVersionId` like `io.hrbr.siggen:1.0.1`. NOTE: If you are using auto beacon version id, double check the `name` and `version` in the `package.json` and make sure
+The pseudo code above results in a `beaconVersionId` like `io.hrbr.siggen:1.3.0`. NOTE: If you are using auto beacon version id, double check the `name` and `version` in the `package.json` and make sure
 this matches the beacon you have registered in the system.
 
 ## Summary Info
 
 | Item | Value | Comments |
 |------|-------|----------|
-| Beacon Version ID |  io.hrbr.siggen:1.0.1| *Check package.json as version may have changed. Can be overridden via `options` files.*  |
+| Beacon Version ID |  io.hrbr.siggen:1.3.0| *Check package.json as version may have changed. Can be overridden via `options` files.*  |
 | Beacon Message Type(s) | SINUSOIDS, BARS, SLICES | Sends all three |
 
 _NOTE: `beaconInstanceId` is automatically created by concatenating the "name" and "version" fields in the `package.json` file._
